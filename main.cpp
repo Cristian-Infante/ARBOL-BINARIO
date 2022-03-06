@@ -5,25 +5,8 @@
 
 ArbolBinario<int> *a = new ArbolBinario<int>();
 
-int nivel(int dato){
-    if(!a->estaVacio()){
-        if(a->BuscarB(dato)){
-            int x = a->Nivel(dato,1);
-            if(x == 0){
-                cout<<"No existe"<<endl;
-            }
-            else{
-                cout<<"Nivel: "<<x-1<<endl;
-            }
-        }
-    }
-    else{
-        cout<<"is Empty"<<endl;
-    }
-}
-
 int main(){
-    cout << "Hello world!" << endl;
+    cout<<endl;
     a->Insertar(6);
     a->Insertar(3);
     a->Insertar(8);
@@ -31,19 +14,34 @@ int main(){
     a->Insertar(1);
     a->Insertar(7);
     a->Insertar(15);
-    nivel(15);
-    //nivel(16);
-    a->Preorden(a->getRaiz());
-    //a->Inorden(a->getRaiz());
+    a->Insertar(20);
+    cout<<"CAMINO 6-1: "<<a->Camino(6, 1)<<endl<<endl;
+
+    cout<<"NIVEl 15: "<<a->Nivel(15)<<endl;
+    cout<<"NIVEl 16: "<<a->Nivel(16)<<endl;
+
+    cout<<"ALTURA: "<<a->Altura(a->getRaiz())<<endl<<endl;
+
+    cout<<"PADRE: "<<a->Padre(12)<<endl<<endl;
+
+    cout<<"SEARCH: "<<a->Buscar(15)->getInfo()<<endl<<endl;
+
+    cout<<"MOSTAR X NIVELES: "; a->MostrarxNiveles(); cout<<endl<<endl;
+
+    cout<<"PRE-ORDEN:\t"; a->Preorden(a->getRaiz()); cout<<endl;
+    cout<<"IN-ORDEN:\t"; a->Inorden(a->getRaiz()); cout<<endl;
+    cout<<"POST-ORDEN:\t"; a->Posorden(a->getRaiz()); cout<<endl<<endl;
+
+    a->Balanceo(a->getRaiz());
+    cout<<"PRE-ORDEN DEPUES DE BALANCEO:\t"; a->Preorden(a->getRaiz()); cout<<endl<<endl;
+
     a->~ArbolBinario();
-    cout<<endl;
-    nivel(16);
     //a->DestruirArbol(a->getRaiz());
-    cout<<endl;
-    a->Posorden(a->getRaiz());
+    cout<<"POST-ORDEN:\t"; a->Posorden(a->getRaiz()); cout<<endl<<endl;
+
     a->Insertar(1);
     a->Insertar(2);
-    a->Preorden(a->getRaiz());
+    cout<<"PRE-ORDEN: "; a->Preorden(a->getRaiz()); cout<<endl<<endl;
 
     return 0;
 }
