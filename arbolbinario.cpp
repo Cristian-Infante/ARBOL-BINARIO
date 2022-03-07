@@ -194,6 +194,7 @@ Nodo<T>* ArbolBinario<T>::BuscarReemp(Nodo<T> *aux){
             }
             act->setDer(aux->getDer());
             return act;
+            break;
     }
 }
 
