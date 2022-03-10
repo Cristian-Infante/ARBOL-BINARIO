@@ -228,6 +228,12 @@ Nodo<T>* ArbolBinario<T>::Eliminar(T dato){
 }
 
 template <typename T>
+int ArbolBinario<T>::Peso(Nodo<T> *actual){
+	if (actual == NULL) return 0;
+	else return 1 + Peso(actual->getDer()) + Peso(actual->getIzq());
+}
+
+template <typename T>
 int ArbolBinario<T>::Grado(T dato){
     Nodo<T> *aux = Buscar(dato);
     if(aux != nullptr){
@@ -365,16 +371,13 @@ Nodo<T>* ArbolBinario<T>::DRI(Nodo<T>* p) {
 template <typename T>
 Nodo<T>* ArbolBinario<T>::Balanceo(Nodo<T> *p){
     if(p != nullptr){
-        /**/Preorden(p); cout<<endl;
         p->setIzq(Balanceo(p->getIzq()));
         p->setDer(Balanceo(p->getDer()));
         int dif = Altura(p->getIzq()) - Altura(p->getDer());
-        //cout<<"\tDiferencia\t"<<Altura(p->getIzq()) - Altura(p->getDer())<<endl<<endl;
         if(abs(dif) > 1){
-            /**/cout<<"entro";
             if(dif > 0){
                 Nodo<T>* q = p->getIzq();
-                int difq = Altura(q->getIzq()) - Altura(q->getIzq());
+                int difq = Altura(q->getIzq()) - Altura(q->getDer());
                 if(difq >= 0){
                     return RD(p);
                 }
@@ -393,5 +396,40 @@ Nodo<T>* ArbolBinario<T>::Balanceo(Nodo<T> *p){
                 }
             }
         }
+    }
+    return p;
+}
+
+template <typename T>
+int ArbolBinario<T>::Equiponderados(Nodo<T> *aux){
+    if(aux == nullptr){
+        return 1;
+    }
+    int dif = Peso(aux->getIzq()) - Peso(aux->getDer());
+    if(dif == 0){
+        int n1 = Equiponderados(aux->getIzq());
+        int n2 = Equiponderados(aux->getDer());
+        if((n1 == 1) && (n2 == 1)){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+    else{
+        return 0;
+    }
+}
+
+template <typename T>
+void ArbolBinario<T>::MultDatos(Nodo<T> *aux){
+    if((aux->getDer() != nullptr) && (aux->getIzq() != nullptr)){
+        aux->setInfo(aux->getIzq()->getInfo() * aux->getDer()->getInfo());
+    }
+    if(aux->getIzq() != nullptr){
+        aux->MultDatos(aux->getIzq());
+    }
+    if(aux->getDer() != nullptr){
+        aux->MultDatos(aux->getDer());
     }
 }
