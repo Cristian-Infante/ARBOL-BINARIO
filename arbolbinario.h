@@ -25,6 +25,7 @@ class ArbolBinario{
        Nodo<T> *Buscar2(Nodo<T> *, T);
        Nodo<T> *BuscarReemp(Nodo<T> *);
        Nodo<T> *Eliminar(T);
+       int Peso(Nodo<T> *);
        int Grado(T);
        int Nivel(T);
        int Camino(T, T); //bool
@@ -37,5 +38,7 @@ class ArbolBinario{
        Nodo<T> *DRD(Nodo<T> *);
        Nodo<T> *DRI(Nodo<T> *);
        Nodo<T> *Balanceo(Nodo<T> *);
+       int Equiponderados(Nodo<T> *); //bool
+       void MultDatos(Nodo<T> *);
 };
 #endif // ARBOLBINARIO_H
