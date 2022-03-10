@@ -17,6 +17,8 @@ int main(){
     a->Insertar(20);
     cout<<"CAMINO 6-1: "<<a->Camino(6, 1)<<endl<<endl;
 
+    cout<<"PESO "<<a->getRaiz()->getDer()->getInfo()<<": "<<a->Peso(a->getRaiz()->getDer())<<endl<<endl;
+
     cout<<"NIVEl 15: "<<a->Nivel(15)<<endl;
     cout<<"NIVEl 16: "<<a->Nivel(16)<<endl;
 
@@ -26,14 +28,14 @@ int main(){
 
     cout<<"SEARCH: "<<a->Buscar(15)->getInfo()<<endl<<endl;
 
-    cout<<"MOSTAR X NIVELES: "; a->MostrarxNiveles(); cout<<endl<<endl;
-
     cout<<"PRE-ORDEN:\t"; a->Preorden(a->getRaiz()); cout<<endl;
     cout<<"IN-ORDEN:\t"; a->Inorden(a->getRaiz()); cout<<endl;
     cout<<"POST-ORDEN:\t"; a->Posorden(a->getRaiz()); cout<<endl<<endl;
 
+    cout<<"MOSTAR X NIVELES: "; a->MostrarxNiveles(); cout<<endl<<endl;
+
     a->Balanceo(a->getRaiz());
-    cout<<"PRE-ORDEN DEPUES DE BALANCEO:\t"; a->Preorden(a->getRaiz()); cout<<endl<<endl;
+    cout<<"MOSTAR X NIVELES DESPUES DE BALANCEO: "; a->MostrarxNiveles(); cout<<endl<<endl;
 
     a->~ArbolBinario();
     //a->DestruirArbol(a->getRaiz());
