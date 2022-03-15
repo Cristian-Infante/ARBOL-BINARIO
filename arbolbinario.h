@@ -14,13 +14,15 @@ class ArbolBinario{
        void setRaiz(Nodo<T> *);
        Nodo<T> *getRaiz();
        T Padre(T);
-       void setPadre(Nodo<T> *);
-       Nodo<T> *getPadre();
        bool estaVacio();
        void Insertar(T);
        void Preorden(Nodo<T> *);
        void Inorden(Nodo<T> *);
        void Posorden(Nodo<T> *);
+
+       void Imprimir(Nodo<T> *);
+       void ImpTree(Nodo<T> *, const string&);
+
        Nodo<T> *Buscar(T);
        Nodo<T> *Buscar2(Nodo<T> *, T);
        Nodo<T> *BuscarReemp(Nodo<T> *);
@@ -32,7 +34,13 @@ class ArbolBinario{
        int Altura(Nodo<T> *);
        void MostrarxNiveles();
        void MostrarNivel(Nodo<T> *, int);
-       int Isomorfos(Nodo<T> *, Nodo<T> *); //bool
+       bool Isomorfos(Nodo<T> *, Nodo<T> *); //bool
+       bool Distintos(Nodo<T> *, Nodo<T> *); //bool
+       bool Semejantes(ArbolBinario<T> *, ArbolBinario<T> *); //bool
+       bool Iguales(ArbolBinario<T> *, ArbolBinario<T> *); //bool
+       Nodo<T> *BuscarNodo(T);
+       bool CompSemejantes(Nodo<T> *, Nodo<T> *); //bool
+       bool Iguales(Nodo<T> *, Nodo<T> *); //bool
        Nodo<T> *RD(Nodo<T> *);
        Nodo<T> *RI(Nodo<T> *);
        Nodo<T> *DRD(Nodo<T> *);
@@ -40,5 +48,6 @@ class ArbolBinario{
        Nodo<T> *Balanceo(Nodo<T> *);
        int Equiponderados(Nodo<T> *); //bool
        void MultDatos(Nodo<T> *);
+       int cantidadNodosArbol(Nodo<T> *actual);
 };
 #endif // ARBOLBINARIO_H
