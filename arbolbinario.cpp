@@ -25,6 +25,7 @@ void ArbolBinario<T>::DestruirArbol(Nodo<T> *aux){
 template <typename T>
 void ArbolBinario<T>::setRaiz(Nodo<T> *nuevo){
     raiz = nuevo;
+    return;
 }
 
 template <typename T>
@@ -56,56 +57,35 @@ T ArbolBinario<T>::Padre(T dato){
 }
 
 template <typename T>
-void ArbolBinario<T>::setPadre(Nodo<T> *nuevo){
-    padre = nuevo;
-}
-
-template <typename T>
-Nodo<T>* ArbolBinario<T>::getPadre(){
-    return padre;
-}
-
-template <typename T>
 void ArbolBinario<T>::Insertar(T dato){
     Nodo<T> *nuevo = new Nodo<T>(dato);
-    Nodo<T> *padreT = getPadre();
-
-    //Nodo<T> *actual = raiz;
-   //Nodo<T> *padre = nullptr;
-
     if(estaVacio()){
-        //raiz = nuevo;
-        setRaiz(nuevo);
-        setPadre(nuevo);
-         //this->setRaiz(nuevo);
+        raiz = nuevo;
     }
-
-    //SI EL DATO ES MAYOR QUE EL PADRE
-    else if(padreT->getInfo()<dato){
-       //CASO BASE
-        if(padreT->getDer()==nullptr){
-            padreT->setDer(nuevo);
-            setPadre(getRaiz());
+    else{
+        Nodo<T> *ant = nullptr;
+        Nodo<T> *act = raiz;
+        while((act != nullptr) && (act->getInfo() != dato)){
+            ant = act;
+            if (act->getInfo() < dato){
+        	    act = act->getDer();
+            }
+        	else{
+                act = act->getIzq();
+            }
         }
+        if (act == nullptr)
+               if (ant->getInfo() < dato){
+                   ant->setDer(nuevo);
+               }
+               else{
+                   ant->setIzq(nuevo);
+               }
         else{
-            setPadre(padreT->getDer());
-            Insertar(dato);
-
+            cout<<" Dato ya existe ...."<<endl;
         }
     }
-    //SI EL DATO ES MENOR QUE EL PADRE
-    else if(padreT->getInfo()>dato){
-      //CASO BASE
-        if(padreT->getIzq()==nullptr){
-            padreT->setIzq(nuevo);
-            setPadre(getRaiz());
-        }
-        else{
-            setPadre(padreT->getIzq());
-            Insertar(dato);
-        }
-    }
-
+    return;
 }
 
 template <typename T>
@@ -116,6 +96,7 @@ void ArbolBinario<T>::Preorden(Nodo<T> *aux){
         Preorden(aux->getIzq());
         Preorden(aux->getDer());
     }
+    return;
 }
 
 template <typename T>
@@ -126,6 +107,7 @@ void ArbolBinario<T>::Inorden(Nodo<T> *aux){
         cout<<aux->getInfo()<<"\t";
         Inorden(aux->getDer());
     }
+    return;
 }
 
 template <typename T>
@@ -138,6 +120,66 @@ void ArbolBinario<T>::Posorden(Nodo<T> *aux){
     }
     else if(estaVacio()){
         cout<<endl<<"Is Empty";
+    }
+    return;
+}
+
+int x = 0;
+template <typename T>
+void ArbolBinario<T>::Imprimir(Nodo<T> *aux){
+    if (aux == NULL){
+            return;
+    }
+    cout <<" "<< aux->getInfo() << endl;
+    ImpTree(aux, "");
+    cout << endl;
+}
+
+template <typename T>
+void ArbolBinario<T>::ImpTree(Nodo<T>* aux, const string& prefix){
+    if (aux == NULL){
+        return;
+    }
+    bool hasLeft = (aux->getIzq() != NULL);
+    bool hasRight = (aux->getDer() != NULL);
+    if (!hasLeft && !hasRight){
+        return;
+    }
+    char m = 195, m3 = 196, m2 = 192, m1 = 179;
+    cout << prefix;
+    if(hasLeft  && hasRight){
+            cout<<" "<<m<<m3<<m3<<"D"<<m3<<m3<<">";
+    }
+    else{
+        cout<<"";
+    }
+    if(!hasLeft  && hasRight){
+            cout<<" "<<m2<<m3<<m3<<"D"<<m3<<m3<<">";
+    }
+    else{
+        cout<<"";
+    }
+    if (hasRight){
+        bool printStrand = (hasLeft && hasRight && (aux->getDer()->getDer() != NULL || aux->getDer()->getIzq() != NULL));
+        string newPrefix;
+        if(printStrand){
+            newPrefix = prefix + " " + m1 + "     ";
+        }
+        else{
+            newPrefix = prefix + "       ";
+        }
+        cout << aux->getDer()->getInfo() << endl;
+        ImpTree(aux->getDer(), newPrefix);
+    }
+    if (hasLeft){
+        if(hasRight){
+            cout<<prefix;
+        }
+        else{
+            cout<<"";
+        }
+        cout<<" "<<m2<<m3<<m3<<"I"<<m3<<m3<<">"<<aux->getIzq()->getInfo() << endl;
+        ImpTree(aux->getIzq(), prefix + "       ");
     }
 }
 
@@ -172,7 +214,6 @@ Nodo<T>* ArbolBinario<T>::BuscarReemp(Nodo<T> *aux){
     switch(Grado(aux->getInfo())){
         case 0:
             return nullptr;
-            break;
         case 1:
             if(aux->getIzq() != nullptr){
                 return aux->getIzq();
@@ -180,7 +221,6 @@ Nodo<T>* ArbolBinario<T>::BuscarReemp(Nodo<T> *aux){
             else{
                 return aux->getDer();
             }
-            break;
         case 2:
             Nodo<T> *ant = nullptr;
             Nodo<T> *act = aux->getIzq();
@@ -194,7 +234,6 @@ Nodo<T>* ArbolBinario<T>::BuscarReemp(Nodo<T> *aux){
             }
             act->setDer(aux->getDer());
             return act;
-            break;
     }
 }
 
@@ -310,6 +349,7 @@ void ArbolBinario<T>::MostrarxNiveles(){
         cout<<endl<<"\tNivel "<<i<<":\t";
         MostrarNivel(aux, i);
     }
+    return;
 }
 
 template <typename T>
@@ -323,23 +363,100 @@ void ArbolBinario<T>::MostrarNivel(Nodo<T> * aux, int nivel){
             cout<<aux->getInfo()<<"\t";
         }
     }
+    return;
 }
 
 template <typename T>
-int ArbolBinario<T>::Isomorfos(Nodo<T> *arb1, Nodo<T> *arb2){
+bool ArbolBinario<T>::Isomorfos(Nodo<T> *arb1, Nodo<T> *arb2){
     if((arb1 == nullptr)&&(arb2 == nullptr)){
-        return 1;
+        return true;
     }
     if(((arb1->getIzq() != nullptr)&&(arb2->getIzq() == nullptr)) || ((arb1->getIzq() == nullptr)&&(arb2->getIzq() != nullptr)) || ((arb1->getDer() != nullptr)&&(arb2->getDer() == nullptr)) || ((arb1->getDer() == nullptr)&&(arb2->getDer() != nullptr))){
-        return 0;
+        return false;
     }
     else{
-        return 1;
+        return true;
+    }
+}
+
+template <typename T>
+bool ArbolBinario<T>::Distintos(Nodo<T> *arb1, Nodo<T> *arb2){
+    if(Peso(arb1) != Peso(arb2)){
+        return true;
+    }
+    if(((arb1 != nullptr) && (arb2 == nullptr)) || ((arb1 == NULL) && (arb2 != NULL))){
+        return true;
+    }
+    else{
+        if(arb1->getInfo() != arb2->getInfo()){
+            return true;
+        }
+        else{
+            Distintos(arb1->getIzq(), arb2->getIzq());
+            Distintos(arb1->getDer(), arb2->getDer());
+        }
+    }
+    return false;
+}
+
+template <typename T>
+bool ArbolBinario<T>::Semejantes(ArbolBinario<T> *arb1, ArbolBinario<T> *arb2){
+    bool sem = false;
+    if(Peso(arb1->getRaiz()) != Peso(arb2->getRaiz())){
+        return false;
+    }
+    else{
+        sem = arb1->CompSemejantes(arb1->getRaiz(), arb2);
+        sem = arb2->CompSemejantes(arb2->getRaiz(), arb1);
+        return sem;
+    }
+}
+
+template <typename T>
+Nodo<T>* ArbolBinario<T>::BuscarNodo(T dato){
+    Nodo<T> *act = raiz;
+    while((act != nullptr) && (act->getInfo() != dato)){
+        if(act->getInfo() > dato){
+            act = act->getIzq();
+        }
+        else{
+            act =act->getDer();
+        }
+    }
+    if(act != nullptr){
+        return act;
+    }
+    else{
+        return nullptr;
+    }
+}
+
+template <typename T>
+bool ArbolBinario<T>::CompSemejantes(Nodo<T> *arb1, Nodo<T> *arb2){
+    if(arb1 != nullptr){
+        if(arb2->BuscarNodo(arb1->getInfo()) == nullptr){
+            return false;
+        }
+        else{
+            return CompSemejantes(arb1->getIzq(), arb2) && CompSemejantes(arb1->getDer(), arb2);
+        }
+    }
+    return true;
+}
+
+template <typename T>
+bool ArbolBinario<T>::Iguales(ArbolBinario<T> *arb1, ArbolBinario<T> *arb2){
+    if((Semejantes(arb1, arb2)) && (Isomorfos(arb1->getRaiz(), arb2->getRaiz()))){
+        return true;
+    }
+    else{
+        return false;
     }
 }
 
 template <typename T>
 Nodo<T>* ArbolBinario<T>::RD(Nodo<T> *p){
+    cout<<"\tRD -> \t"<<p->getInfo()<<endl;
     Nodo<T>* q = p->getIzq();
     p->setIzq(q->getDer());
     q->setDer(p);
@@ -348,6 +465,7 @@ Nodo<T>* ArbolBinario<T>::RD(Nodo<T> *p){
 
 template <typename T>
 Nodo<T>* ArbolBinario<T>::RI(Nodo<T>* p) {
+    cout<<"\tRI -> \t"<<p->getInfo()<<endl;
     Nodo<T>* q = p->getDer();
     p->setDer(q->getIzq());
     q->setIzq(p);
@@ -432,4 +550,11 @@ void ArbolBinario<T>::MultDatos(Nodo<T> *aux){
     if(aux->getDer() != nullptr){
         aux->MultDatos(aux->getDer());
     }
+    return;
+}
+
+template <typename T>
+int ArbolBinario<T>::cantidadNodosArbol(Nodo<T> *actual){
+     if (actual == NULL) return 0;
+     else return 1 + cantidadNodosArbol(actual->getDer()) + cantidadNodosArbol(actual->getIzq());
 }
